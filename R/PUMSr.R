@@ -30,8 +30,7 @@ PUMSr <- function(dat, codebook, large=FALSE) {
   
   # For relatively small files, read in directly
   if(large==FALSE){
-  library(iotools)
-  pums <- input.file(dat, formatter = dstrfw, col_types=type,
+  pums <- iotools::input.file(dat, formatter = dstrfw, col_types=type,
                      widths = (endpos - startpos) + 1)
   } else {
   # For larger files, use FF package to load
