@@ -1,5 +1,5 @@
 Package: pumsr
 Version: 0.1
 Imports:
-	XML
+	XML,
 	iotools
