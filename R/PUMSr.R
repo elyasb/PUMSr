@@ -3,7 +3,7 @@
 
 require(XML)
 
-PUMSr <- function(dat, codebook) {
+PUMSr <- function(dat, codebook, large=FALSE) {
   # Parse XML codebook
   read <- xmlInternalTreeParse(codebook, useInternalNodes = TRUE)
   
@@ -30,9 +30,16 @@ PUMSr <- function(dat, codebook) {
   type <- pos <- xpathSApply(read, "//*[name()='var']/*[name()='varFormat']", xmlAttrs)
   type <- type[2,]
   
+  # For relatively small files, read in directly
+  if(large==FALSE){
   library(iotools)
   pums <- input.file(dat, formatter = dstrfw, col_types=type,
                      widths = (endpos - startpos) + 1)
+  } else {
+  # For larger files, use FF package to load
+    temp <- file(dat)
+    pums <- sqldf
+  }
   colnames(pums) <- tolower(names)
   return(pums)  
 }
