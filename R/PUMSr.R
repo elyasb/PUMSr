@@ -20,7 +20,7 @@ PUMSr <- function(dat, codebook, large=FALSE) {
   # Scrape label information
   # Get category value for each variable
   valpaths <- lapply(names, function(x) paste0("//*[name()='var'][@ID='", x, "']/*[name()='catgry']/*[name()='catValu']"))
-  catval <- lapply(valpaths, function(x) xpathSApply(read, x, xmlValue))
+  catval <- lapply(valpaths, function(x) XML::xpathSApply(read, x, xmlValue))
   
   # Get category label for each value
   lblpath <- lapply(names, function(x) paste0("//*[name()='var'][@ID='", x, "']/*[name()='catgry']/*[name()='labl']"))
@@ -30,12 +30,17 @@ PUMSr <- function(dat, codebook, large=FALSE) {
   
   # For relatively small files, read in directly
   if(large==FALSE){
-  pums <- iotools::input.file(dat, formatter = dstrfw, col_types=type,
-                     widths = (endpos - startpos) + 1)
+  #pums <- iotools::input.file(dat, formatter = dstrfw, col_types=type,
+  #                   widths = (endpos - startpos) + 1)
+  pums <- readr::read_fwf(dat, readr::fwf_widths((endpos - startpos)+1))
+  
   } else {
-  # For larger files, use FF package to load
-    temp <- file(dat)
-    pums <- sqldf
+  # For larger files, use LaF package to load
+    library(LaF)
+    library(ffbase)
+    pums.laf <- laf_open_fwf(dat, column_widths=(endpos - startpos) + 1, 
+                             column_types=type)
+    pums <- laf_to_ffdf(pums.laf)
   }
   colnames(pums) <- tolower(names)
   return(pums)  
