@@ -5,5 +5,6 @@ Description: This package is designed to import fixed-width data from ipums.org 
 Imports:
 	XML,
 	readr,
-	LaF
+	LaF,
 	ffbase
+RoxygenNote: 6.0.1

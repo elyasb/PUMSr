@@ -1,5 +1,11 @@
-# Function for reading IPUMS data using the DII codebook (xml)
-# Import the fixed-width data and use the IPUMS DII codebook file to import the positions
+#' Import fixed-width files from ipums.org directly into R using the corresponding XML IPUMS DII codebook.
+#' 
+#' @param dat The fixed-width data file.
+#' @param codebook The XML version of the codebook for the corresponding ipums extract.
+#' @param large Files designated as "large" are imported using the LaF and ffbase packages to avoid memory problems. Defaults to FALSE. Factor labels are currently not supported with large files.
+#' @param labels If TRUE, the labels option converts character variables to factors and attaches value labels. Defaults to FALSE.
+#' @examples
+#' ihis <- pumsr("ihis_00001.dat", "ihis_00001.xml", labels=TRUE)
 
 pumsr <- function(dat, codebook, large=FALSE, labels=FALSE) {
   # Parse XML codebook
