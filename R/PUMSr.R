@@ -37,11 +37,9 @@ pumsr <- function(dat, codebook, large=FALSE, labels=FALSE) {
   
   } else {
   # For larger files, use LaF package to load
-    library(LaF)
-    library(ffbase)
-    pums.laf <- laf_open_fwf(dat, column_widths=(endpos - startpos) + 1, 
+    pums.laf <- LaF::laf_open_fwf(dat, column_widths=(endpos - startpos) + 1, 
                              column_types=type)
-    pums <- laf_to_ffdf(pums.laf)
+    pums <- ffbase::laf_to_ffdf(pums.laf)
   }
   
   if(labels==TRUE){

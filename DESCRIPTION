@@ -1,6 +1,9 @@
 Package: pumsr
 Title: Imports Fixed-Width IPUMS Data
 Version: 0.1
+Description: This package is designed to import fixed-width data from ipums.org directly into R (rather than downloading a Stata or SPSS dataset). It only requires the ipums .dat file and the XML version of the codebook. 
 Imports:
 	XML,
-	iotools
+	readr,
+	LaF
+	ffbase
