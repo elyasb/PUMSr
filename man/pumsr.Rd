@@ -2,7 +2,7 @@
 % Please edit documentation in R/pumsr.R
 \name{pumsr}
 \alias{pumsr}
-\title{Import fixed-width files from ipums.org directly into R using the corresponding XML IPUMS DII codebook.}
+\title{Import fixed-width files from ipums.org directly into R}
 \usage{
 pumsr(dat, codebook, large = FALSE, labels = FALSE)
 }
@@ -16,7 +16,7 @@ pumsr(dat, codebook, large = FALSE, labels = FALSE)
 \item{labels}{If TRUE, the labels option converts character variables to factors and attaches value labels. Defaults to FALSE.}
 }
 \description{
-Import fixed-width files from ipums.org directly into R using the corresponding XML IPUMS DII codebook.
+Import fixed-width files from ipums.org directly into R
 }
 \examples{
 ihis <- pumsr("ihis_00001.dat", "ihis_00001.xml", labels=TRUE)
