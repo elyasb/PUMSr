@@ -2,6 +2,8 @@
 
 pumsr is a simple package for directly importing fixed-width [IPUMS data](http://www.ipums.org) into R using the XML DDI codebook. IPUMS extracts currently only include fixed-width data files and command files for Stata, SPSS, or SAS. 
 
+![ipums extract](https://github.com/elyasb/pumsr/man/figures/extract.png)
+
 ## Installation
 
 pumsr is currently only available through Github.
