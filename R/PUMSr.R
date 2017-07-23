@@ -56,12 +56,11 @@ pumsr <- function(dat, codebook, large=FALSE, labels=FALSE) {
     pums <- ffbase::laf_to_ffdf(pums.laf, stringsAsFactors=FALSE)
     
     # Convert to factors if labels==TRUE
-    require(ff)
       if(labels==TRUE){
         for(i in 1:length(pums)){ # Loops through and adds labels if available. Excludes some variables with more values than labels (such as year variables)
           if(is.null(catlbl[[i]])==FALSE & (length(unique(catval[[i]])) >= length(unique(pums[,i])))==TRUE & (length(which(unique(pums[,i]) %in% catval[[i]]))>0)){
             cat(paste("Adding category labels to", names[i], "\n"))
-            virtual(pums[[i]])$Levels <- catlbl[[i]]
+            ff::virtual(pums[[i]])$Levels <- catlbl[[i]]
             } else{assign(paste0("virtual(pums$V", i, ")$ramclass"), type[i])}
         }
       }
