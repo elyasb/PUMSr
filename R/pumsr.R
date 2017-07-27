@@ -5,7 +5,7 @@
 #' @param labels If TRUE, the labels option converts character variables to factors and attaches value labels. Defaults to FALSE.
 #' @examples
 #' ihis <- pumsr("ihis_00001.dat", "ihis_00001.xml", labels=TRUE)
-
+#' @export
 pumsr <- function(dat, codebook, large=FALSE, labels=FALSE) {
   # Parse XML codebook
   read <- XML::xmlInternalTreeParse(codebook, useInternalNodes = TRUE)
@@ -37,19 +37,17 @@ pumsr <- function(dat, codebook, large=FALSE, labels=FALSE) {
   if(large==FALSE){
   #pums <- iotools::input.file(dat, formatter = dstrfw, col_types=type,
   #                   widths = (endpos - startpos) + 1)
-  pums <- as.data.frame(readr::read_fwf(dat, readr::fwf_widths((endpos - startpos)+1), col_type=paste(rep("c", 40), collapse="")))
+  pums <- as.data.frame(readr::read_fwf(dat, readr::fwf_widths((endpos - startpos)+1), col_type=paste(rep("c", length(type), collapse=""))))
   
     # Convert to factors if labels==TRUE
-    if(labels==TRUE){
+    if (labels==TRUE) {
       for(i in 1:length(pums)){ # Loops through and adds labels if available. Excludes some variables with more values than labels (such as year variables)
         if(is.null(catlbl[[i]])==FALSE & (length(unique(catval[[i]])) >= length(unique(pums[,i])))==TRUE & (length(which(unique(pums[,i]) %in% catval[[i]]))>0)){
           cat(paste("Adding category labels to", names[i], "\n"))
           pums[,i] <- factor(pums[,i], levels=catval[[i]], labels=catlbl[[i]])
         } else{class(pums[,i]) <- type[i]}
       }
-    }
-  
-  } else {
+    }} else {
   # For larger files, use LaF package to load
     pums.laf <- LaF::laf_open_fwf(dat, column_widths=(endpos - startpos) + 1, 
                              column_types=rep("string", length(type)))
