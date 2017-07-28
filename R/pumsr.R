@@ -37,7 +37,7 @@ pumsr <- function(dat, codebook, large=FALSE, labels=FALSE) {
   if(large==FALSE){
   #pums <- iotools::input.file(dat, formatter = dstrfw, col_types=type,
   #                   widths = (endpos - startpos) + 1)
-  pums <- as.data.frame(readr::read_fwf(dat, readr::fwf_widths((endpos - startpos)+1), col_type=paste(rep("c", length(type), collapse=""))))
+  pums <- as.data.frame(readr::read_fwf(dat, readr::fwf_widths((endpos - startpos)+1), col_type=paste(rep("c", length(type)), collapse="")))
   
     # Convert to factors if labels==TRUE
     if (labels==TRUE) {
