@@ -4,8 +4,5 @@ Version: 0.1
 Description: This package is designed to import fixed-width data from ipums.org directly into R (rather than downloading a Stata or SPSS dataset). It only requires the ipums .dat file and the XML version of the codebook. 
 Imports:
 	XML,
-	readr,
-	LaF,
-	ffbase,
-	ff
+	readr
 RoxygenNote: 6.0.1

@@ -6,7 +6,7 @@
 #' @examples
 #' ihis <- pumsr("ihis_00001.dat", "ihis_00001.xml", labels=TRUE)
 #' @export
-pumsr <- function(dat, codebook, large=FALSE, labels=FALSE) {
+pumsr <- function(dat, codebook, labels=FALSE) {
   # Parse XML codebook
   read <- XML::xmlInternalTreeParse(codebook, useInternalNodes = TRUE)
   
@@ -33,10 +33,7 @@ pumsr <- function(dat, codebook, large=FALSE, labels=FALSE) {
   type <- pos <- XML::xpathSApply(read, "//*[name()='var']/*[name()='varFormat']", XML::xmlAttrs)
   type <- type[2,]
 
-  # For relatively small files, read in directly
-  if(large==FALSE){
-  #pums <- iotools::input.file(dat, formatter = dstrfw, col_types=type,
-  #                   widths = (endpos - startpos) + 1)
+  # Read in data
   pums <- as.data.frame(readr::read_fwf(dat, readr::fwf_widths((endpos - startpos)+1), col_type=paste(rep("c", length(type)), collapse="")))
   
     # Convert to factors if labels==TRUE
@@ -45,24 +42,12 @@ pumsr <- function(dat, codebook, large=FALSE, labels=FALSE) {
         if(is.null(catlbl[[i]])==FALSE & (length(unique(catval[[i]])) >= length(unique(pums[,i])))==TRUE & (length(which(unique(pums[,i]) %in% catval[[i]]))>0)){
           cat(paste("Adding category labels to", names[i], "\n"))
           pums[,i] <- factor(pums[,i], levels=catval[[i]], labels=catlbl[[i]])
-        } else{class(pums[,i]) <- type[i]}
+        } else{
+          cat(paste("Converting", names[i], "to", type[i], "\n"))
+          class(pums[,i]) <- type[i]
+          }
       }
-    }} else {
-  # For larger files, use LaF package to load
-    pums.laf <- LaF::laf_open_fwf(dat, column_widths=(endpos - startpos) + 1, 
-                             column_types=rep("string", length(type)))
-    pums <- ffbase::laf_to_ffdf(pums.laf, stringsAsFactors=FALSE)
-    
-    # Convert to factors if labels==TRUE
-      if(labels==TRUE){
-        for(i in 1:length(pums)){ # Loops through and adds labels if available. Excludes some variables with more values than labels (such as year variables)
-          if(is.null(catlbl[[i]])==FALSE & (length(unique(catval[[i]])) >= length(unique(pums[,i])))==TRUE & (length(which(unique(pums[,i]) %in% catval[[i]]))>0)){
-            cat(paste("Adding category labels to", names[i], "\n"))
-            ff::virtual(pums[[i]])$Levels <- catlbl[[i]]
-            } else{assign(paste0("virtual(pums$V", i, ")$ramclass"), type[i])}
-        }
-      }
-  }
+    }
   
   
   colnames(pums) <- tolower(names)

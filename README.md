@@ -15,6 +15,6 @@ devtools::install_github("elyasb/pumsr")
 ```
 ## Usage
 
-Simply provide the filenames for the fixed-width data (.dat) and DDI codebook (.xml), and pumsr will create a data frame. For files too large for a standard import (more than 10 gb or so, depending on memory restrictions), specifying `large=TRUE` will read the data as a [ffdf](https://cran.r-project.org/web/packages/ffbase/ffbase.pdf) object.
+Simply provide the filenames for the fixed-width data (.dat) and DDI codebook (.xml), and pumsr will create a data frame.
 
 The default import uses original codes for all factor variables. Running pumsr with `labels=TRUE` will replace factor levels with the category value labels from the codebook. Double-check labels after import, as there are occassionally discrepencies between the number of variable values and the labels in the IPUMS codebook.
